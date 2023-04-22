@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.netoloboapps.crudoperations.presentation.CrudOperationsApp
 import com.netoloboapps.crudoperations.ui.theme.CRUDOperationsTheme
 
 @Composable
@@ -40,7 +39,8 @@ fun DefaultRadioButton(
 }
 
 @Preview(showBackground = true)
-@Composable fun DefaultRadioButton(){
+@Composable
+fun DefaultRadioButton() {
     CRUDOperationsTheme {
         DefaultRadioButton(
             text = "teste",

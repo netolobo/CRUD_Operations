@@ -8,6 +8,6 @@ import androidx.room.RoomDatabase
     version = 1,
     exportSchema = false
 )
-abstract class MotorcycleDb : RoomDatabase(){
+abstract class MotorcycleDb : RoomDatabase() {
     abstract val dao: MotorcycleDao
 }

@@ -7,12 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.netoloboapps.crudoperations.data.di.MainDispatcher
 import com.netoloboapps.crudoperations.data.local.InvalidMotorcycleException
-import com.netoloboapps.crudoperations.data.local.LocalMotorcycle
 import com.netoloboapps.crudoperations.domain.model.Motorcycle
 import com.netoloboapps.crudoperations.domain.use_case.MotorcycleUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -24,24 +22,6 @@ class RegistrationScreenViewModel @Inject constructor(
     private val motorcycleUseCases: MotorcycleUseCases,
     @MainDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
-    private val _state = mutableStateOf(
-        RegistrationScreenState(
-            motorcycle = LocalMotorcycle(
-                id = 0,
-                brandName = "teste",
-                model = "teste"
-            )
-        )
-    )
-
-    val state: State<RegistrationScreenState> get() = _state
-
-    private val errorHandle = CoroutineExceptionHandler { _, exception ->
-        exception.printStackTrace()
-        _state.value = _state.value.copy(
-            error = exception.message
-        )
-    }
 
     private val _motorcycleBrandName = mutableStateOf(
         MotorcycleTextFieldState(
@@ -91,17 +71,20 @@ class RegistrationScreenViewModel @Inject constructor(
                     text = event.value
                 )
             }
+
             is RegisterMotorcycleEvent.ChangeBrandNameFocus -> {
                 _motorcycleBrandName.value = motorcycleBrandName.value.copy(
                     isHintVisible = !event.focusState.isFocused &&
                             motorcycleBrandName.value.text.isBlank()
                 )
             }
+
             is RegisterMotorcycleEvent.EnteredModel -> {
                 _motorcycleModel.value = _motorcycleModel.value.copy(
                     text = event.value
                 )
             }
+
             is RegisterMotorcycleEvent.ChangeModelFocus -> {
                 _motorcycleModel.value = _motorcycleModel.value.copy(
                     isHintVisible = !event.focusState.isFocused &&
@@ -129,6 +112,7 @@ class RegistrationScreenViewModel @Inject constructor(
                     }
                 }
             }
+
             is RegisterMotorcycleEvent.DeleteMotorcycle -> {
                 viewModelScope.launch(dispatcher) {
                     motorcycleUseCases.deleteMotorcycle(currentMotorcycleId)

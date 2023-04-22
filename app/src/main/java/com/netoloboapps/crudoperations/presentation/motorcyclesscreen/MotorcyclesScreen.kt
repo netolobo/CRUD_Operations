@@ -142,12 +142,12 @@ private fun DefaultPreview() {
             state = MotorcyclesScreenState(
                 listOf(
                     Motorcycle(
-                        id= 0,
+                        id = 0,
                         brandName = "Honda",
                         model = "CBR 1000RRR"
                     ),
                     Motorcycle(
-                        id= 0,
+                        id = 0,
                         brandName = "Yamaha",
                         model = "YZF-R1M"
                     )

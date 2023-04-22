@@ -11,17 +11,17 @@ class SaveOrUpdateMotorcycle @Inject constructor(
     @Throws(InvalidMotorcycleException::class)
     suspend operator fun invoke(motorcycle: Motorcycle) {
 
-        if(motorcycle.brandName.isBlank()){
+        if (motorcycle.brandName.isBlank()) {
             throw InvalidMotorcycleException("The brand name of the motorcycle can't be empty")
         }
 
-        if(motorcycle.model.isBlank()){
+        if (motorcycle.model.isBlank()) {
             throw InvalidMotorcycleException("The model of the motorcycle can't be empty")
         }
 
-        if(motorcycle.id == 0){
+        if (motorcycle.id == 0) {
             repository.saveMotorcycle(motorcycle)
-        }else{
+        } else {
             repository.updateMotorcycle(motorcycle.id, motorcycle)
         }
     }

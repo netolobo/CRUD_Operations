@@ -24,7 +24,7 @@ fun MotorcycleItem(
     onCardItemClick: (id: Int) -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .clickable { onCardItemClick(motorcycle.id) }
             .padding(
                 top = 8.dp,

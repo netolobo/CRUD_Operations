@@ -45,16 +45,17 @@ class MotorcyclesScreenViewModel @Inject constructor(
         getMotorcycles(MotorcycleOrder.BrandName(OrderType.Ascending))
     }
 
-    fun onEvent(event: MotorcyclesEvent){
-        when(event){
+    fun onEvent(event: MotorcyclesEvent) {
+        when (event) {
             is MotorcyclesEvent.Order -> {
-                if(state.value.motorcycleOrder == event.motorcycleOrder::class &&
-                        state.value.motorcycleOrder.orderType == event.motorcycleOrder.orderType
-                ){
+                if (state.value.motorcycleOrder == event.motorcycleOrder::class &&
+                    state.value.motorcycleOrder.orderType == event.motorcycleOrder.orderType
+                ) {
                     return
                 }
                 getMotorcycles(event.motorcycleOrder)
             }
+
             is MotorcyclesEvent.ToogleOrderSection -> {
                 _state.value = _state.value.copy(
                     isOrderSectionVisible = !state.value.isOrderSectionVisible
@@ -67,16 +68,16 @@ class MotorcyclesScreenViewModel @Inject constructor(
         getMotorcyclesJob?.cancel()
         getMotorcyclesJob = motorcycleUseCases.getMotorcycles(motorcycleOrder)
             .onEach { motorcycles ->
-                  _state.value = _state.value.copy(
-                      motorcycles = motorcycles,
-                      motorcycleOrder = motorcycleOrder,
-                      isLoading = false
-                  )
+                _state.value = _state.value.copy(
+                    motorcycles = motorcycles,
+                    motorcycleOrder = motorcycleOrder,
+                    isLoading = false
+                )
             }
             .launchIn(viewModelScope)
     }
 
-     fun deleteAllMotorcycle() = viewModelScope.launch(errorHandler + dispatcher) {
+    fun deleteAllMotorcycle() = viewModelScope.launch(errorHandler + dispatcher) {
         motorcycleUseCases.deleteMotorcycles().onEach {
             _state.value = _state.value.copy(
                 motorcycles = it,

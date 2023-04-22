@@ -15,4 +15,4 @@ data class LocalMotorcycle(
     val model: String,
 )
 
-class InvalidMotorcycleException(message: String): Exception(message)
+class InvalidMotorcycleException(message: String) : Exception(message)

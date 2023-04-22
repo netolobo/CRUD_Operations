@@ -20,45 +20,52 @@ class MotorcycleRepository @Inject constructor(
 ) {
     fun getMotorcycles(motorcycleOrder: MotorcycleOrder): Flow<List<Motorcycle>> {
 
-            when (motorcycleOrder.orderType) {
-                is OrderType.Ascending -> return motorcycleDao.getAll().map { localMotorcycles ->
-                    when(motorcycleOrder){
-                        is MotorcycleOrder.BrandName -> localMotorcycles.sortedBy { it.brandName.lowercase() }.map {
+        when (motorcycleOrder.orderType) {
+            is OrderType.Ascending -> return motorcycleDao.getAll().map { localMotorcycles ->
+                when (motorcycleOrder) {
+                    is MotorcycleOrder.BrandName -> localMotorcycles.sortedBy { it.brandName.lowercase() }
+                        .map {
                             Motorcycle(
                                 id = it.id,
                                 brandName = it.brandName,
                                 model = it.model
                             )
                         }
-                        is MotorcycleOrder.Model -> localMotorcycles.sortedBy { it.model.lowercase() }.map {
-                            Motorcycle(
-                                id = it.id,
-                                brandName = it.brandName,
-                                model = it.model
-                            )
-                        }
-                    }
-                }
-                is OrderType.Descending -> return motorcycleDao.getAll().map { localMotorcycles ->
-                    when(motorcycleOrder){
-                        is MotorcycleOrder.BrandName -> localMotorcycles.sortedByDescending { it.brandName.lowercase() }.map {
-                            Motorcycle(
-                                id = it.id,
-                                brandName = it.brandName,
-                                model = it.model
-                            )
-                        }
-                        is MotorcycleOrder.Model -> localMotorcycles.sortedByDescending { it.model.lowercase() }.map {
-                            Motorcycle(
-                                id = it.id,
-                                brandName = it.brandName,
-                                model = it.model
-                            )
-                        }
-                    }
-                }
 
+                    is MotorcycleOrder.Model -> localMotorcycles.sortedBy { it.model.lowercase() }
+                        .map {
+                            Motorcycle(
+                                id = it.id,
+                                brandName = it.brandName,
+                                model = it.model
+                            )
+                        }
+                }
             }
+
+            is OrderType.Descending -> return motorcycleDao.getAll().map { localMotorcycles ->
+                when (motorcycleOrder) {
+                    is MotorcycleOrder.BrandName -> localMotorcycles.sortedByDescending { it.brandName.lowercase() }
+                        .map {
+                            Motorcycle(
+                                id = it.id,
+                                brandName = it.brandName,
+                                model = it.model
+                            )
+                        }
+
+                    is MotorcycleOrder.Model -> localMotorcycles.sortedByDescending { it.model.lowercase() }
+                        .map {
+                            Motorcycle(
+                                id = it.id,
+                                brandName = it.brandName,
+                                model = it.model
+                            )
+                        }
+                }
+            }
+
+        }
 
     }
 
