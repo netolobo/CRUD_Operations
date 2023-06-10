@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "CRUD Operations"
-include ':app'
+include (":app:")
